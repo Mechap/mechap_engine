@@ -1,0 +1,23 @@
+version(1);
+
+project_name = "SDL2_Engine";
+
+patterns = {
+	"*.c",
+	"*.cpp",
+	"*.ds",
+	"*.h",
+	"*.bat",
+	"*.sh",
+	"*.4coder",
+};
+
+blacklist_patterns = {
+	".*",
+};
+
+load_paths = {
+	{
+		{ {"."}, .recursive = true, .relative = true }, .os = "win"
+	},
+};
