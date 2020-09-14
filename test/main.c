@@ -26,8 +26,6 @@ int main(int argc, char *argv[]) {
     
     // NOTE(mechap): create entity
     Sprite *tree = createSprite(&window, "assets/tree.png", 42, 42);
-    SDL_Rect srcTree = {0, 0, 0, 0};
-    SDL_Rect destTree = {0, 0, 0, 0};
     
     // NOTE(mechap): window settings
     printf("window title: %s\n", getWindowTitle(window));
@@ -50,7 +48,7 @@ int main(int argc, char *argv[]) {
         windowClear(&window);
         
         // NOTE(mechap): draw elements...
-        drawSprite(&window, &tree, srcTree, destTree);
+        drawSpriteFull(&window, &tree, 200, 200);
         
         SDL_Surface *s;
         s = SDL_CreateRGBSurface(0, 50, 50, 32, 0, 0, 0, 0);

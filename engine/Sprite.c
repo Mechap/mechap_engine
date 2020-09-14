@@ -59,11 +59,29 @@ void destroySprite(Sprite **sprite) {
     }
 }
 
-void drawSprite(Window **window, Sprite **sprite, SDL_Rect srcRect, SDL_Rect dstRect) {
+void drawSprite(Window **window, Sprite **sprite, int spriteX, int spriteY, int spriteWidth, int spriteHeight, int drawX, int drawY, int drawWidth, int drawHeight) {
     if (*sprite != NULL) {
-        (*sprite)->srcRect = srcRect;
-		(*sprite)->dstRect = dstRect;
+        // NOTE(mechap): set the texture_rect
+        (*sprite)->srcRect.x = spriteX;
+		(*sprite)->srcRect.y = spriteY;
+        (*sprite)->srcRect.w = spriteWidth;
+        (*sprite)->srcRect.h = spriteHeight;
+        
+        // NOTE(mechap): set the render_rect
+        (*sprite)->dstRect.x = drawX;
+        (*sprite)->dstRect.y = drawY;
+        (*sprite)->dstRect.w = drawWidth;
+        (*sprite)->dstRect.h = drawHeight;
         
         SDL_RenderCopyEx((*window)->sdl_renderer, (*sprite)->sdl_texture, &(*sprite)->srcRect, &(*sprite)->dstRect, (*sprite)->angle, NULL, (*sprite)->flip);
+    }
+}
+
+void drawSpriteFull(Window **window, Sprite **sprite, int x, int y) {
+    if (*sprite != NULL) {
+        (*sprite)->dstRect.x = x;
+        (*sprite)->dstRect.y = y;
+        
+        SDL_RenderCopyEx((*window)->sdl_renderer, (*sprite)->sdl_texture, NULL, &(*sprite)->dstRect, (*sprite)->angle, NULL, (*sprite)->flip);
     }
 }

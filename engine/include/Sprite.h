@@ -23,6 +23,7 @@ typedef struct sprite Sprite;
 Sprite *createSprite(Window **window, const char *spritePath, int width, int height);
 void destroySprite(Sprite **sprite);
 
-void drawSprite(Window **window, Sprite **sprite, SDL_Rect srcRect, SDL_Rect dstRect);
+void drawSprite(Window **window, Sprite **sprite, int spriteX, int spriteY, int spriteWidth, int spriteHeight, int drawX, int drawY, int drawWidth, int drawHeight);
+void drawSpriteFull(Window **window, Sprite **sprite, int x, int y);
 
 #endif //_SPRITE_H
