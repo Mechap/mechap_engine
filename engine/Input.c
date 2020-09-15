@@ -36,3 +36,12 @@ bool isInputKeyUp(Input *input, SDL_Keycode keycode) {
     }
     return false;
 }
+
+bool isInputKeyQuit(Input *input) {
+    if (input != NULL) {
+        if (input->event.type == SDL_QUIT) {
+            return true;
+        }
+    }
+    return false;
+}

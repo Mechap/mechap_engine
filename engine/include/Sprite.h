@@ -15,8 +15,6 @@ struct sprite {
     SDL_RendererFlip flip;
     char *spritePath;
     float angle;
-    SDL_Color colorRect;
-    bool showRect;
 };
 typedef struct sprite Sprite;
 
@@ -25,5 +23,13 @@ void destroySprite(Sprite **sprite);
 
 void drawSprite(Window **window, Sprite **sprite, int spriteX, int spriteY, int spriteWidth, int spriteHeight, int drawX, int drawY, int drawWidth, int drawHeight);
 void drawSpriteFull(Window **window, Sprite **sprite, int x, int y);
+
+// NOTE(mechap): getters
+SDL_Rect getSrcRect(Sprite **sprite);
+SDL_Rect getDstRect(Sprite **sprite);
+
+// NOTE(mechap): setters
+void setSrcRect(Sprite **sprite, SDL_Rect rect);
+void setDstRect(Sprite **sprite, SDL_Rect rect);
 
 #endif //_SPRITE_H

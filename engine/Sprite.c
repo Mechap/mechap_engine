@@ -34,8 +34,6 @@ Sprite *createSprite(Window **window, const char *spritePath, int width, int hei
     newSprite->dstRect = (SDL_Rect){0, 0, width, height};
     newSprite->flip = SDL_FLIP_NONE;
     newSprite->angle = 0.0;
-    newSprite->colorRect = (SDL_Color){0, 0, 0, 0};
-    newSprite->showRect = false;
     
     return newSprite;
 }
@@ -83,5 +81,35 @@ void drawSpriteFull(Window **window, Sprite **sprite, int x, int y) {
         (*sprite)->dstRect.y = y;
         
         SDL_RenderCopyEx((*window)->sdl_renderer, (*sprite)->sdl_texture, NULL, &(*sprite)->dstRect, (*sprite)->angle, NULL, (*sprite)->flip);
+    }
+}
+
+SDL_Rect getSrcRect(Sprite **sprite) {
+    if (*sprite != NULL) {
+        return (*sprite)->srcRect;
+    }
+    
+    // NOTE(mechap): empty rect
+    return (SDL_Rect){0, 0, 0, 0};
+}
+
+SDL_Rect getDstRect(Sprite **sprite) {
+    if (*sprite != NULL) {
+        return (*sprite)->dstRect;
+    }
+    
+    // NOTE(mechap): empty rect
+    return (SDL_Rect){0, 0, 0, 0};
+}
+
+void setSrcRect(Sprite **sprite, SDL_Rect rect) {
+    if (*sprite != NULL) {
+        (*sprite)->srcRect = rect;
+    }
+}
+
+void setDstRect(Sprite **sprite, SDL_Rect rect) {
+    if (*sprite != NULL) {
+        (*sprite)->dstRect = rect;
     }
 }

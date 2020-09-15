@@ -1,6 +1,8 @@
 #include "Core.h"
 #include "Window.h"
 #include "Sprite.h"
+#include "Vec2.h"
+#include "Input.h"
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -24,8 +26,11 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "error at createWindowRenderer()!\n");
     }
     
-    // NOTE(mechap): create entity
+    // NOTE(mechap): create entity and initialize it
     Sprite *tree = createSprite(&window, "assets/tree.png", 42, 42);
+    
+    Vec2 treePos = createVec2(0, 0);
+    const float speed = 5.0;
     
     // NOTE(mechap): window settings
     printf("window title: %s\n", getWindowTitle(window));
@@ -34,26 +39,39 @@ int main(int argc, char *argv[]) {
     printf("window Width: %d\n", getWindowWidth(window));
     printf("window Height: %d\n", getWindowHeight(window));
     
+    printf("sprite drawn: %s\n", tree->spritePath);
+    
     SDL_Event e;
+    Input *input = NULL;
     
     while (!quit) {
         frameStart = SDL_GetTicks();
         
         while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
+            input = createInput(e);
+            
+            if (isInputKeyQuit(input)) {
                 quit = true;
+            }
+            
+            if (isInputKeyDown(input, SDLK_a)) {
+                // NOTE(mechap): move left
+                treePos.x -= 1 * speed;
+            } else if (isInputKeyDown(input, SDLK_d)) {
+                // NOTE(mechap): move right
+                treePos.x += 1 * speed;
+            } else if (isInputKeyDown(input, SDLK_w)) {
+                // NOTE(mechap): move up
+                treePos.y -= 1 * speed;
+            } else if (isInputKeyDown(input, SDLK_s)) {
+                treePos.y += 1 * speed;
             }
         }
         
         windowClear(&window);
         
         // NOTE(mechap): draw elements...
-        drawSpriteFull(&window, &tree, 200, 200);
-        
-        SDL_Surface *s;
-        s = SDL_CreateRGBSurface(0, 50, 50, 32, 0, 0, 0, 0);
-        
-        SDL_FillRect(s, NULL, SDL_MapRGB(s->format, 255, 0, 0));
+        drawSpriteFull(&window, &tree, treePos.x, treePos.y);
         
         windowUpdate(&window);
         
@@ -64,6 +82,7 @@ int main(int argc, char *argv[]) {
     }
     
     destroySprite(&tree);
+    destroyInput(input);
     destroyWindow(&window);
     quitCore();
     

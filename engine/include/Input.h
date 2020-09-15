@@ -14,5 +14,6 @@ void destroyInput(Input *input);
 
 bool isInputKeyDown(Input *input, SDL_Keycode keycode);
 bool isInputKeyUp(Input *input, SDL_Keycode keycode);
+bool isInputKeyQuit(Input *input);
 
 #endif //_INPUT_H
