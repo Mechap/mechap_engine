@@ -9,6 +9,12 @@ Input *createInput(SDL_Event event) {
         return NULL;
     }
     newInput->event = event;
+    
+    // NOTE(mechap): init func_ptr
+    newInput->is_input_key_dowm = &isInputKeyDown;
+    newInput->is_input_key_quit = &isInputKeyQuit;
+    newInput->is_input_key_up = &isInputKeyUp;
+    
     return newInput;
 }
 
@@ -19,7 +25,9 @@ void destroyInput(Input *input) {
     }
 }
 
-bool isInputKeyDown(Input *input, SDL_Keycode keycode) {
+//~ NOTE(mechap): static functions
+
+static bool isInputKeyDown(Input *input, SDL_Keycode keycode) {
     if (input != NULL) {
         if (input->event.type == SDL_KEYDOWN && input->event.key.keysym.sym == keycode) {
             return true;
@@ -28,7 +36,7 @@ bool isInputKeyDown(Input *input, SDL_Keycode keycode) {
     return false;
 }
 
-bool isInputKeyUp(Input *input, SDL_Keycode keycode) {
+static bool isInputKeyUp(Input *input, SDL_Keycode keycode) {
     if (input != NULL) {
         if (input->event.type == SDL_KEYUP && input->event.key.keysym.sym == keycode) {
             return true;
@@ -37,7 +45,7 @@ bool isInputKeyUp(Input *input, SDL_Keycode keycode) {
     return false;
 }
 
-bool isInputKeyQuit(Input *input) {
+static bool isInputKeyQuit(Input *input) {
     if (input != NULL) {
         if (input->event.type == SDL_QUIT) {
             return true;

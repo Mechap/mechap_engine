@@ -10,7 +10,7 @@ link_directories(C:/SDL2_ttf-2.0.15/lib/x64)
 option (FORCE_COLORED_OUTPUT "Always produce ANSI-colored output (Clang only)." TRUE)
 if (${FORCE_COLORED_OUTPUT})
     if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
-       add_compile_options (-Wall -Wextra -Wno-newline-eof -pedantic -fcolor-diagnostics -fansi-escape-codes)
+       add_compile_options (-Wall -Wextra -Wno-newline-eof -pedantic -fcolor-diagnostics -fansi-escape-codes -Wno-unused-function)
     endif ()
 endif ()
 

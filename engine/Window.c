@@ -17,6 +17,24 @@ Window *createWindow(char *title, int x, int y, int width, int height, Uint32 fl
     // NOTE(mechap): newWindow->sdl_renderer is NULL by default
     newWindow->sdl_renderer = NULL;
     
+    // NOTE(mechap): init methods
+    newWindow->get_sdl_window = &getSdlWindow;
+    newWindow->get_window_title = &getWindowTitle;
+    newWindow->get_window_x = &getWindowX;
+    newWindow->get_window_y = &getWindowY;
+    newWindow->get_window_width = &getWindowWidth;
+    newWindow->get_window_height = &getWindowHeight;
+    newWindow->get_window_flags = &getWindowFlags;
+    newWindow->get_window_renderer = &getWindowRenderer;
+    
+    newWindow->set_sdl_window = &setSdlWindow;
+    newWindow->set_window_title = &setWindowTitle;
+    newWindow->set_window_x = &setWindowX;
+    newWindow->set_window_y = &setWindowY;
+    newWindow->set_window_width = &setWindowWidth;
+    newWindow->set_window_height = &setWindowHeight;
+    newWindow->set_window_renderer = &setWindowRenderer;
+    
     return newWindow;
 }
 
@@ -75,21 +93,23 @@ void setWindowFullscreen(Window **window, Uint32 flags) {
     }
 }
 
-SDL_Window *getSdlWindow(Window *window) {
+//~ NOTE(mechap): static functions
+
+static SDL_Window *getSdlWindow(Window *window) {
     if (window != NULL) {
         return window->sdl_window;
     }
     return NULL;
 }
 
-const char *getWindowTitle(Window *window) {
+static const char *getWindowTitle(Window *window) {
     if (window != NULL) {
         return SDL_GetWindowTitle(window->sdl_window);
     }
     return NULL;
 }
 
-int getWindowX(Window *window) {
+static int getWindowX(Window *window) {
     if (window != NULL) {
         int x, y;
         SDL_GetWindowPosition(window->sdl_window, &x, &y);
@@ -100,7 +120,7 @@ int getWindowX(Window *window) {
     return -1;
 }
 
-int getWindowY(Window *window) {
+static int getWindowY(Window *window) {
     if (window != NULL) {
         int x, y;
         SDL_GetWindowPosition(window->sdl_window, &x, &y);
@@ -111,7 +131,7 @@ int getWindowY(Window *window) {
     return -1;
 }
 
-int getWindowWidth(Window *window) {
+static int getWindowWidth(Window *window) {
     if (window != NULL) {
         int w, h;
         SDL_GetWindowSize(window->sdl_window, &w, &h);
@@ -122,7 +142,7 @@ int getWindowWidth(Window *window) {
     return -1;
 }
 
-int getWindowHeight(Window *window) {
+static int getWindowHeight(Window *window) {
     if (window != NULL) {
         int w, h;
         SDL_GetWindowSize(window->sdl_window, &w, &h);
@@ -133,7 +153,7 @@ int getWindowHeight(Window *window) {
     return -1;
 }
 
-int getWindowFlags(Window *window) {
+static int getWindowFlags(Window *window) {
     if (window != NULL) {
         return SDL_GetWindowFlags(window->sdl_window);
     }
@@ -142,7 +162,7 @@ int getWindowFlags(Window *window) {
     return -1;
 }
 
-SDL_Renderer *getWindowRenderer(Window *window) {
+static SDL_Renderer *getWindowRenderer(Window *window) {
     if (window != NULL) {
         return window->sdl_renderer;
     }
@@ -150,19 +170,19 @@ SDL_Renderer *getWindowRenderer(Window *window) {
     return NULL;
 }
 
-void setSdlWindow(Window **window, SDL_Window *sdl_window) {
+static void setSdlWindow(Window **window, SDL_Window *sdl_window) {
     if (*window != NULL) {
         (*window)->sdl_window = sdl_window;
     }
 }
 
-void setWindowTitle(Window **window, const char *title) {
+static void setWindowTitle(Window **window, const char *title) {
     if (*window != NULL) {
         SDL_SetWindowTitle((*window)->sdl_window, title);
     }
 }
 
-void setWindowX(Window **window, int x) {
+static void setWindowX(Window **window, int x) {
     if (*window != NULL) {
         int tmpX, y;
         SDL_GetWindowPosition((*window)->sdl_window, &tmpX, &y);
@@ -170,7 +190,7 @@ void setWindowX(Window **window, int x) {
     }
 }
 
-void setWindowY(Window **window, int y) {
+static void setWindowY(Window **window, int y) {
     if (*window != NULL) {
         int x, tmpY;
         SDL_GetWindowPosition((*window)->sdl_window, &x, &tmpY);
@@ -178,7 +198,7 @@ void setWindowY(Window **window, int y) {
     }
 }
 
-void setWindowWidth(Window **window, int width) {
+static void setWindowWidth(Window **window, int width) {
     if (*window != NULL) {
         int w, h;
         SDL_GetWindowPosition((*window)->sdl_window, &w, &h);
@@ -186,7 +206,7 @@ void setWindowWidth(Window **window, int width) {
     }
 }
 
-void setWindowHeight(Window **window, int height) {
+static void setWindowHeight(Window **window, int height) {
     if (*window != NULL) {
         int w, h;
         SDL_GetWindowPosition((*window)->sdl_window, &w, &h);
@@ -194,7 +214,7 @@ void setWindowHeight(Window **window, int height) {
     }
 }
 
-void setWindowRenderer(Window **window, SDL_Renderer *renderer) {
+static void setWindowRenderer(Window **window, SDL_Renderer *renderer) {
     if (*window != NULL) {
         (*window)->sdl_renderer = renderer;
     }

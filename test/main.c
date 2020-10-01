@@ -30,16 +30,16 @@ int main(int argc, char *argv[]) {
     Sprite *tree = createSprite(&window, "assets/tree.png", 42, 42);
     
     Vec2 treePos = createVec2(0, 0);
-    const float speed = 5.0;
+    const float speed = 8.0;
     
     // NOTE(mechap): window settings
-    printf("window title: %s\n", getWindowTitle(window));
-    printf("window X: %d\n", getWindowX(window));
-    printf("window Y: %d\n", getWindowY(window));
-    printf("window Width: %d\n", getWindowWidth(window));
-    printf("window Height: %d\n", getWindowHeight(window));
+    printf("window title: %s\n", window->get_window_title(window));
+    printf("window X: %d\n", window->get_window_x(window));
+    printf("window Y: %d\n", window->get_window_y(window));
+    printf("window Width: %d\n", window->get_window_width(window));
+    printf("window Height: %d\n", window->get_window_height(window));
     
-    printf("sprite drawn: %s\n", tree->spritePath);
+    printf("sprite drawn: %s\n", tree->get_sprite_path(&tree));
     
     SDL_Event e;
     Input *input = NULL;
@@ -50,10 +50,10 @@ int main(int argc, char *argv[]) {
         while (SDL_PollEvent(&e)) {
             input = createInput(e);
             
-            if (isInputKeyQuit(input)) {
+            if (input->is_input_key_quit(input)) {
                 quit = true;
             }
-            
+            /*
             if (isInputKeyDown(input, SDLK_a)) {
                 // NOTE(mechap): move left
                 treePos.x -= 1 * speed;
@@ -66,9 +66,13 @@ int main(int argc, char *argv[]) {
             } else if (isInputKeyDown(input, SDLK_s)) {
                 treePos.y += 1 * speed;
             }
+            */
         }
         
         windowClear(&window);
+        
+        // NOTE(mechap): update position
+        treePos.add_func(&treePos, 1, 0);
         
         // NOTE(mechap): draw elements...
         drawSpriteFull(&window, &tree, treePos.x, treePos.y);

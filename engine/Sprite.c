@@ -35,6 +35,12 @@ Sprite *createSprite(Window **window, const char *spritePath, int width, int hei
     newSprite->flip = SDL_FLIP_NONE;
     newSprite->angle = 0.0;
     
+    // NOTE(mechap): init methods
+    newSprite->get_src_rect = &getSrcRect;
+    newSprite->get_dest_rect = &getDstRect;
+    newSprite->set_src_rect = &setSrcRect;
+    newSprite->set_dest_rect =&setDstRect;
+    
     return newSprite;
 }
 
@@ -84,7 +90,9 @@ void drawSpriteFull(Window **window, Sprite **sprite, int x, int y) {
     }
 }
 
-SDL_Rect getSrcRect(Sprite **sprite) {
+//~ NOTE(mechap): static functions
+
+static SDL_Rect getSrcRect(Sprite **sprite) {
     if (*sprite != NULL) {
         return (*sprite)->srcRect;
     }
@@ -93,7 +101,7 @@ SDL_Rect getSrcRect(Sprite **sprite) {
     return (SDL_Rect){0, 0, 0, 0};
 }
 
-SDL_Rect getDstRect(Sprite **sprite) {
+static SDL_Rect getDstRect(Sprite **sprite) {
     if (*sprite != NULL) {
         return (*sprite)->dstRect;
     }
@@ -102,13 +110,20 @@ SDL_Rect getDstRect(Sprite **sprite) {
     return (SDL_Rect){0, 0, 0, 0};
 }
 
-void setSrcRect(Sprite **sprite, SDL_Rect rect) {
+static char *getSpritePath(Sprite **sprite) {
+    if (*sprite != NULL) {
+        return (*sprite)->spritePath;
+    }
+    return NULL;
+}
+
+static void setSrcRect(Sprite **sprite, SDL_Rect rect) {
     if (*sprite != NULL) {
         (*sprite)->srcRect = rect;
     }
 }
 
-void setDstRect(Sprite **sprite, SDL_Rect rect) {
+static void setDstRect(Sprite **sprite, SDL_Rect rect) {
     if (*sprite != NULL) {
         (*sprite)->dstRect = rect;
     }
