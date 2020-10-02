@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     }
     
     // NOTE(mechap): create entity and initialize it
-    Sprite *tree = createSprite(&window, "assets/tree.png", 42, 42);
+    Sprite *tree = createSprite(&window, "assets\\tree.png", 42, 42);
     
     Vec2 treePos = createVec2(0, 0);
     const float speed = 8.0;

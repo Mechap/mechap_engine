@@ -17,10 +17,10 @@ Sprite *createSprite(Window **window, const char *spritePath, int width, int hei
         fprintf(stderr, "Error! newSprite->spritePath could not be allocated!\n");
         return NULL;
     }
-    memcpy(newSprite->spritePath, spritePath, size);
+    memcpy(newSprite->spritePath, spritePath, size);;
     
     newSprite->sdl_surface = IMG_Load(newSprite->spritePath);
-    if (newSprite->spritePath == NULL) {
+    if (newSprite->sdl_surface == NULL) {
         printf("Unnable to load image %s! Error: %s\n", newSprite->spritePath, IMG_GetError());
         return NULL;
     }
@@ -40,6 +40,8 @@ Sprite *createSprite(Window **window, const char *spritePath, int width, int hei
     newSprite->get_dest_rect = &getDstRect;
     newSprite->set_src_rect = &setSrcRect;
     newSprite->set_dest_rect =&setDstRect;
+    
+    newSprite->get_sprite_path = &getSpritePath;
     
     return newSprite;
 }
